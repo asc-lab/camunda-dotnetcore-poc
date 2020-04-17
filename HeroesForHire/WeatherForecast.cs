@@ -1,6 +1,6 @@
 using System;
 
-namespace HerosForHire
+namespace HeroesForHire
 {
     public class WeatherForecast
     {

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerosForHire", "HerosForHire\HerosForHire.csproj", "{744478DB-15B3-4045-B1EC-6FE128E71732}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroesForHire", "HeroesForHire\HeroesForHire.csproj", "{744478DB-15B3-4045-B1EC-6FE128E71732}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sso", "Sso\Sso.csproj", "{73CB50D5-2AB6-4418-83A9-9A99CCB4270F}"
 EndProject

@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace HerosForHire
+namespace HeroesForHire
 {
     public class Startup
     {
@@ -43,6 +43,7 @@ namespace HerosForHire
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
         }
     }
 }
