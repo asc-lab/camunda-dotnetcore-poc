@@ -1,0 +1,20 @@
+<h1>Login</h1>
+
+<form clrForm [formGroup]="form" (ngSubmit)="submit()">
+    <clr-input-container>
+        <label>Username</label>
+        <input clrInput formControlName="username" type="text" />
+        <clr-control-error>Username Required</clr-control-error>
+    </clr-input-container>
+
+    <clr-password-container>
+        <label>Password</label>
+        <input clrPassword formControlName="password" type="password" />
+        <clr-control-error>Password Required</clr-control-error>
+    </clr-password-container>
+
+    <button class="btn btn-primary" type="submit">
+        <clr-icon shape="user"></clr-icon> Login
+    </button>
+
+</form>
