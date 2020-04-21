@@ -1,2 +1,2 @@
-# camunda-dotnetcore-poc
-Proof of concept project that shows how we can use Camunda BPMN Platform in .net core applications
+# Camunda .NET Core PoC
+Proof of Concept project that shows how we can use Camunda BPMN Platform in .NET Core applications.
