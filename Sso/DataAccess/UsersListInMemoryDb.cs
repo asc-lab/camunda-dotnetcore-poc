@@ -25,7 +25,7 @@ namespace Sso.DataAccess
 
         public User FindByLogin(string login)
         {
-            return users[login];
+            return users.ContainsKey(login) ? users[login] : null;
         }
     }
 }

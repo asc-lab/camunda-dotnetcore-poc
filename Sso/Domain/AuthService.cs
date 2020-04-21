@@ -18,7 +18,7 @@ namespace Sso.Domain
             this.appSettings = appSettings.Value;
         }
 
-        public string Authenticate(string login, string pwd)
+        public AuthResult Authenticate(string login, string pwd)
         {
             var user = users.FindByLogin(login);
 
@@ -45,12 +45,24 @@ namespace Sso.Domain
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return new AuthResult
+            {
+                Token = tokenHandler.WriteToken(token),
+                User = user.Login,
+                Expires = tokenDescriptor.Expires
+            };
         }
 
         public User UserWithLogin(string login)
         {
             return users.FindByLogin(login);
         }
+    }
+
+    public class AuthResult
+    {
+        public string Token { get; set; }
+        public string User { get; set; }
+        public DateTime? Expires { get; set; }
     }
 }

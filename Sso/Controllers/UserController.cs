@@ -20,12 +20,12 @@ namespace Sso.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] AuthRequest user)
         {
-            var token = authService.Authenticate(user.Login, user.Password);
+            var authResult = authService.Authenticate(user.Login, user.Password);
 
-            if (token == null)
+            if (authResult == null)
                 return BadRequest(new {message = "Username of password incorrect"});
 
-            return Ok(new {Token = token});
+            return Ok(authResult);
         }
 
         [HttpGet]
