@@ -32,7 +32,7 @@ namespace HeroesForHire.Domain
                 var powers = await db.Superpowers
                     .ToListAsync(cancellationToken: cancellationToken);
 
-                return powers.Select(p => SuperpowerDto.FromEntity(p)).ToList();
+                return powers.Select(SuperpowerDto.FromEntity).ToList();
             }
         }
     }

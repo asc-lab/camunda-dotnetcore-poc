@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using HeroesForHire.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,13 +20,13 @@ namespace HeroesForHire.DataAccess
         {
         }
 
-        public List<Hero> FindHeroForOrder(Order order)
+        public async Task<List<Hero>> FindHeroForOrder(Order order)
         {
-            return Heroes
+            return await Heroes
                 .Where(h =>
                     h.Superpowers.Any(s => s.Superpower.Id == order.Superpower.Id)
                     && !h.Assignments.Any(a => order.Period.To >= a.Period.From && order.Period.From <= a.Period.To)
-                ).ToList();
+                ).ToListAsync();
         }
  
         protected override void OnModelCreating(ModelBuilder modelBuilder)
