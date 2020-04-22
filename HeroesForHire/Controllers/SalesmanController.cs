@@ -11,19 +11,23 @@ namespace HeroesForHire.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class SuperpowerController : ControllerBase
+    public class SalesmanController : ControllerBase
     {
         private readonly IMediator bus;
 
-        public SuperpowerController(IMediator bus)
+        public SalesmanController(IMediator bus)
         {
             this.bus = bus;
         }
 
-        [HttpGet]
-        public async Task<ICollection<SuperpowerDto>> AllSuperpowers()
+        [HttpGet("MyTasks")]
+        public async Task<ICollection<TaskDto>> MyTasks()
         {
-            return await bus.Send(new GetAllSuperPowers.Query());
+            var tasks = await bus.Send(new GetSalesmanTasks.Query
+            {
+                SalesmanLogin = User.Identity.Name
+            });
+            return tasks;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Linq;
 using HeroesForHire.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace HeroesForHire.Adapters.DataAccess
+namespace HeroesForHire.DataAccess
 {
     public class HeroesDbContext : DbContext
     {
@@ -124,6 +124,8 @@ namespace HeroesForHire.Adapters.DataAccess
                 .HasOne(s => s.Customer);
             modelBuilder.Entity<Order>()
                 .Property(s => s.Status);
+            modelBuilder.Entity<Order>()
+                .Property(s => s.ProcessInstanceId);
         }
     }
 }

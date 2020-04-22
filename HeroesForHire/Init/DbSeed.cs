@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using HeroesForHire.Adapters.DataAccess;
+using HeroesForHire.DataAccess;
 using HeroesForHire.Domain;
 
 namespace HeroesForHire.Init

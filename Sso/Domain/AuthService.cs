@@ -38,7 +38,8 @@ namespace Sso.Domain
                     new Claim("sub", user.Login),
                     new Claim(ClaimTypes.Name, user.Login),
                     new Claim(ClaimTypes.Role, user.UserType.ToString()),
-                    new Claim("user-type", user.UserType.ToString()) 
+                    new Claim("user-type", user.UserType.ToString()), 
+                    new Claim("user-company", user.CustomerCode)
                 }),
                 Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

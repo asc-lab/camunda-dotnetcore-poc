@@ -10,6 +10,8 @@ namespace HeroesForHire.Domain
         public DateRange Period { get; }
         
         public OrderStatus Status { get; protected set; }
+        
+        public string ProcessInstanceId { get; protected set; }
 
         public Order(Customer customer, Superpower superpower, DateRange period)
         {
@@ -18,10 +20,16 @@ namespace HeroesForHire.Domain
             Superpower = superpower;
             Period = period;
             Status = OrderStatus.New;
+            ProcessInstanceId = null;
         }
 
         protected Order()
         {
+        }
+
+        public void AssociateWithProcessInstance(string processInstanceId)
+        {
+            this.ProcessInstanceId = processInstanceId;
         }
     }
 

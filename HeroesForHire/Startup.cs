@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HeroesForHire.Adapters.DataAccess;
+using HeroesForHire.DataAccess;
 using HeroesForHire.Init;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

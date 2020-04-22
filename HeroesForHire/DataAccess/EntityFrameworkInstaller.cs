@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HeroesForHire.Adapters.DataAccess
+namespace HeroesForHire.DataAccess
 {
     public static class EntityFrameworkInstaller
     {

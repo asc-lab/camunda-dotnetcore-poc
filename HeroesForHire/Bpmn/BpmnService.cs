@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Camunda.Api.Client;
 using Camunda.Api.Client.Deployment;
 using Camunda.Api.Client.ProcessDefinition;
+using Camunda.Api.Client.UserTask;
 using HeroesForHire.Domain;
 
 namespace HeroesForHire
@@ -41,7 +43,20 @@ namespace HeroesForHire
                 camunda.ProcessDefinitions.ByKey("Process_Hire_Hero").StartProcessInstance(processParams);
 
             return processStartResult.Id;
+        }
 
+        public async Task<List<UserTaskInfo>> GetTasksFor(string group, string user)
+        {
+            var taskQuery = new TaskQuery
+            {
+                ProcessDefinitionKeys = { "Process_Hire_Hero" },
+                CandidateGroup = "Sales"
+            };
+
+            
+            var tasks = await camunda.UserTasks.Query(taskQuery).List();
+
+            return tasks;
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using HeroesForHire.Controllers.Dtos;
 using HeroesForHire.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -19,9 +20,15 @@ namespace HeroesForHire.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrder.Command request)
+        public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrderDto request)
         {
-            await bus.Send(request);
+            await bus.Send(new PlaceOrder.Command
+            {
+                CustomerCode = User.CompanyCode(),
+                SuperpowerCode = request.SuperpowerCode,
+                OrderFrom = request.OrderFrom,
+                OrderTo = request.OrderTo
+            });
             return Ok();
         }
     }

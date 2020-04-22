@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HeroesForHire.Adapters.DataAccess;
+using HeroesForHire.DataAccess;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
 
@@ -39,10 +39,11 @@ namespace HeroesForHire.Domain
                     );
 
                 db.Orders.Add(newOrder);
-
                 await db.SaveChangesAsync(cancellationToken);
 
-                await bpmnService.StartProcessFor(newOrder);
+                var processInstanceId = await bpmnService.StartProcessFor(newOrder);
+                newOrder.AssociateWithProcessInstance(processInstanceId);
+                await db.SaveChangesAsync(cancellationToken);
                 
                 return Unit.Value;
             }
