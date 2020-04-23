@@ -31,6 +31,13 @@ namespace HeroesForHire.Domain
         {
             this.ProcessInstanceId = processInstanceId;
         }
+
+        public void CreateOfferWithHero(Hero candidateHero)
+        {
+            var offer = new Offer(this, candidateHero);
+            candidateHero.Assign(this.Customer, this.Period);
+            this.Status = OrderStatus.OfferCreated;
+        }
     }
 
     public enum OrderStatus

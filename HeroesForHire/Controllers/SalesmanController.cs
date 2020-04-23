@@ -29,5 +29,15 @@ namespace HeroesForHire.Controllers
             });
             return tasks;
         }
+
+        [HttpPost("MyTasks/{taskId}/claim")]
+        public async Task<TaskDto> ClaimTask([FromRoute] string taskId)
+        {
+            return await bus.Send(new ClaimTask.Command
+            {
+                TaskId = taskId,
+                UserLogin = User.Identity.Name
+            });
+        }
     }
 }

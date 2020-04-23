@@ -29,7 +29,7 @@ namespace HeroesForHire.Domain
 
             public async Task<ICollection<TaskDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var tasks = await bpmnService.GetTasksFor(null, null);
+                var tasks = await bpmnService.GetTasksForGroup("Sales");
                 var processIds = tasks.Select(t => t.ProcessInstanceId).ToList();
 
                 var orders = await db.Orders.Where(o => processIds.Contains(o.ProcessInstanceId))
@@ -38,17 +38,8 @@ namespace HeroesForHire.Domain
 
                 return (from task in tasks
                     let relatedOrder = processIdToOrderMap[task.ProcessInstanceId]
-                    select new TaskDto
-                    {
-                        TaskId = task.Id,
-                        Assignee = task.Assignee,
-                        OrderId = relatedOrder.Id.Value,
-                        RequestedSuperpower = relatedOrder?.Superpower.Code,
-                        OrderFrom = relatedOrder?.Period.From,
-                        OrderTo = relatedOrder?.Period.To,
-                        Customer = relatedOrder?.Customer.Name,
-                        OrderStatus = relatedOrder?.Status.ToString()
-                    }).ToList();
+                    select TaskDto.FromEntity(task, relatedOrder))
+                    .ToList();
             }
         }
     }

@@ -5,6 +5,7 @@ using Camunda.Api.Client;
 using Camunda.Api.Client.Deployment;
 using Camunda.Api.Client.ProcessDefinition;
 using Camunda.Api.Client.UserTask;
+using HeroesForHire.Controllers.Dtos;
 using HeroesForHire.Domain;
 
 namespace HeroesForHire
@@ -45,18 +46,39 @@ namespace HeroesForHire
             return processStartResult.Id;
         }
 
-        public async Task<List<UserTaskInfo>> GetTasksFor(string group, string user)
+        public async Task<List<UserTaskInfo>> GetTasksForGroup(string group)
         {
             var taskQuery = new TaskQuery
             {
                 ProcessDefinitionKeys = { "Process_Hire_Hero" },
-                CandidateGroup = "Sales"
+                CandidateGroup = group
             };
 
             
             var tasks = await camunda.UserTasks.Query(taskQuery).List();
 
             return tasks;
+        }
+
+        public async Task<UserTaskInfo> ClaimTask(string taskId, string user)
+        {
+            var task = await camunda.UserTasks[taskId].Get();
+
+            await camunda.UserTasks[taskId].Claim(user);
+            
+            return task;
+        }
+        
+        public async Task<UserTaskInfo> CompleteTask(string taskId, Order order)
+        {
+            var task = await camunda.UserTasks[taskId].Get();
+
+            var completeTask = new CompleteTask()
+                .SetVariable("orderStatus", VariableValue.FromObject(order.Status.ToString()));
+                
+            await camunda.UserTasks[taskId].Complete(completeTask);
+            
+            return task;
         }
     }
 }
