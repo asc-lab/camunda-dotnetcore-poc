@@ -19,7 +19,7 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_15g6sqk" sourceRef="Task_PrepareOffer" targetRef="ExclusiveGateway_0bozdks" />
     <bpmn:sequenceFlow id="SequenceFlow_0nwpmmh" name="no heros available" sourceRef="ExclusiveGateway_0bozdks" targetRef="EndEvent_04v4o6u">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${offerCreationResult=="NO_HEROS_AVAILABLE"}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${orderStatus=="NoHeroesAvailable"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_00i627o" sourceRef="ExclusiveGateway_0bozdks" targetRef="Task_1rb7w2t" />
     <bpmn:endEvent id="EndEvent_0jt22jk">

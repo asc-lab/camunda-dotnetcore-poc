@@ -12,7 +12,7 @@ namespace HeroesForHire.Controllers
 
     [Authorize]
     [ApiController]
-    [Microsoft.AspNetCore.Components.Route("[controller]")]
+    [Route("[controller]")]
     public class HeroesController : ControllerBase
     {
         private readonly IMediator bus;

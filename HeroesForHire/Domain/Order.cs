@@ -5,15 +5,15 @@ namespace HeroesForHire.Domain
 {
     public class Order : Entity<OrderId>
     {
-        public Customer Customer { get; }
-        public Superpower Superpower { get; }
-        public DateRange Period { get; }
+        public virtual Customer Customer { get; }
+        public virtual Superpower Superpower { get; }
+        public virtual DateRange Period { get; }
         
         public OrderStatus Status { get; protected set; }
         
         public string ProcessInstanceId { get; protected set; }
 
-        public Offer Offer { get; protected set; }
+        public virtual Offer Offer { get; protected set; }
 
         public Order(Customer customer, Superpower superpower, DateRange period)
         {
@@ -56,6 +56,7 @@ namespace HeroesForHire.Domain
     {
         New,
         OfferCreated,
+        NoHeroesAvailable,
         Accepted,
         Rejected
     }

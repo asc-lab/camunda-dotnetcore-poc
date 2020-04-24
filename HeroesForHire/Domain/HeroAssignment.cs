@@ -5,9 +5,9 @@ namespace HeroesForHire.Domain
 {
     public class HeroAssignment : Entity<HeroAssignmentId>
     {
-        public Hero Hero { get; }
-        public Customer Customer { get; }
-        public DateRange Period { get; }
+        public virtual Hero Hero { get; }
+        public virtual Customer Customer { get; }
+        public virtual DateRange Period { get; }
         public AssignmentStatus Status { get; protected set; }
 
         public HeroAssignment(Hero hero, Customer customer, DateRange period)

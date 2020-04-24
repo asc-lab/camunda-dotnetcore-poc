@@ -5,9 +5,9 @@ namespace HeroesForHire.Domain
 {
     public class Offer : Entity<OfferId>
     {
-        public Order Order { get; }
-        public Hero AssignedHero { get; }
-        public OfferStatus Status { get; protected set; }
+        public virtual Order Order { get; }
+        public virtual Hero AssignedHero { get; }
+        public OfferStatus Status { get; private set; }
 
         public Offer(Order order, Hero assignedHero)
         {

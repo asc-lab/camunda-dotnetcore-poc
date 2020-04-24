@@ -7,10 +7,10 @@ namespace HeroesForHire.Domain
     {
         public string Name { get; private set; }
         private List<HeroPower> superpowers = new List<HeroPower>();
-        public ICollection<HeroPower> Superpowers => superpowers.AsReadOnly();
+        public virtual ICollection<HeroPower> Superpowers => superpowers.AsReadOnly();
         
         private List<HeroAssignment> assignments = new List<HeroAssignment>();
-        public ICollection<HeroAssignment> Assignments => assignments.AsReadOnly();
+        public virtual ICollection<HeroAssignment> Assignments => assignments.AsReadOnly();
         
         public Hero(HeroId id, string name)
         {
@@ -37,8 +37,8 @@ namespace HeroesForHire.Domain
 
     public class HeroPower : Entity<HeroPowerId>
     {
-        public Hero Hero { get; }
-        public Superpower Superpower { get; }
+        public virtual Hero Hero { get; }
+        public virtual Superpower Superpower { get; }
 
         public HeroPower(Hero hero, Superpower superpower)
         {

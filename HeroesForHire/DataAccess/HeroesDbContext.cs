@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HeroesForHire.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HeroesForHire.DataAccess
 {
@@ -30,110 +31,24 @@ namespace HeroesForHire.DataAccess
                     && !h.Assignments.Any(a => order.Period.To >= a.Period.From && order.Period.From <= a.Period.To)
                 ).ToListAsync();
         }
- 
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            MapSuperpower(modelBuilder);
-            MapCustomer(modelBuilder);
-            MapHero(modelBuilder);
-            MapOrder(modelBuilder);
-            MapOffer(modelBuilder);
+            modelBuilder.ApplyConfiguration(new SuperpowerConfiguration());
+            modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+            modelBuilder.ApplyConfiguration(new HeroConfiguration());
+            modelBuilder.ApplyConfiguration(new HeroPowerConfiguration());
+            modelBuilder.ApplyConfiguration(new HeroAssignmentConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new OfferConfiguration());
             base.OnModelCreating(modelBuilder);
         }
 
-        private static void MapSuperpower(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Superpower>()
-                .HasKey(s => s.Id);
-            modelBuilder.Entity<Superpower>()
-                .Property(s => s.Id)
-                .HasConversion(s => s.Value, s => new SuperpowerId(s));
-            modelBuilder.Entity<Superpower>()
-                .Property(s => s.Code);
-            modelBuilder.Entity<Superpower>()
-                .Property(s => s.Name);
-        }
-        
-        private static void MapCustomer(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Customer>()
-                .HasKey(s => s.Id);
-            modelBuilder.Entity<Customer>()
-                .Property(s => s.Id)
-                .HasConversion(s => s.Value, s => new CustomerId(s));
-            modelBuilder.Entity<Customer>()
-                .Property(s => s.Code);
-            modelBuilder.Entity<Customer>()
-                .Property(s => s.Name);
-        }
-        
-        private static void MapHero(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Hero>()
-                .HasKey(s => s.Id);
-            modelBuilder.Entity<Hero>()
-                .Property(s => s.Id)
-                .HasConversion(s => s.Value, s => new HeroId(s));
-            modelBuilder.Entity<Hero>()
-                .Property(s => s.Name);
-
-            modelBuilder.Entity<HeroPower>()
-                .HasKey(s => s.Id);
-            modelBuilder.Entity<HeroPower>()
-                .Property(s => s.Id)
-                .HasConversion(s => s.Value, s => new HeroPowerId(s));
-            modelBuilder.Entity<HeroPower>()
-                .HasOne(p => p.Hero)
-                .WithMany(s => s.Superpowers);
-            modelBuilder.Entity<HeroPower>()
-                .HasOne(s => s.Superpower);
-
-            //HeroAssignment
-            modelBuilder.Entity<HeroAssignment>()
-                .HasKey(s => s.Id);
-            modelBuilder.Entity<HeroAssignment>()
-                .Property(s => s.Id)
-                .HasConversion(s => s.Value, s => new HeroAssignmentId(s));
-            modelBuilder.Entity<HeroAssignment>()
-                .HasOne(p => p.Hero)
-                .WithMany(s => s.Assignments);
-            modelBuilder.Entity<HeroAssignment>()
-                .HasOne(s => s.Customer);
-            modelBuilder.Entity<HeroAssignment>()
-                .OwnsOne(s => s.Period, p =>
-                {
-                    p.Property(x => x.From);
-                    p.Property(x => x.To);
-                });
-            modelBuilder.Entity<HeroAssignment>()
-                .Property(x => x.Status);
-        }
-
-        private static void MapOrder(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Order>()
-                .HasKey(s => s.Id);
-            modelBuilder.Entity<Order>()
-                .Property(s => s.Id)
-                .HasConversion(s => s.Value, s => new OrderId(s));
-            modelBuilder.Entity<Order>()
-                .HasOne(s => s.Superpower);
-            modelBuilder.Entity<Order>()
-                .OwnsOne(s => s.Period, s =>
-                {
-                    s.Property(x => x.From);
-                    s.Property(x => x.To);
-                });
-            modelBuilder.Entity<Order>()
-                .HasOne(s => s.Customer);
-            modelBuilder.Entity<Order>()
-                .Property(s => s.Status);
-            modelBuilder.Entity<Order>()
-                .Property(s => s.ProcessInstanceId);
-            modelBuilder.Entity<Order>()
-                .HasOne(s => s.Offer);
-        }
-        
         private static void MapOffer(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Offer>()
@@ -150,6 +65,110 @@ namespace HeroesForHire.DataAccess
             
             modelBuilder.Entity<Offer>()
                 .Property(s => s.Status);
+        }
+    }
+    
+    class SuperpowerConfiguration : IEntityTypeConfiguration<Superpower>
+    {
+        public void Configure(EntityTypeBuilder<Superpower> modelBuilder)
+        {
+            modelBuilder.HasKey(s => s.Id);
+            modelBuilder.Property(s => s.Id)
+                .HasConversion(s => s.Value, s => new SuperpowerId(s));
+            modelBuilder.Property(s => s.Code);
+            modelBuilder.Property(s => s.Name);
+        }
+    }
+
+    class CustomerConfiguration : IEntityTypeConfiguration<Customer>
+    {
+        public void Configure(EntityTypeBuilder<Customer> modelBuilder)
+        {
+            modelBuilder.HasKey(s => s.Id);
+            modelBuilder.Property(s => s.Id)
+                .HasConversion(s => s.Value, s => new CustomerId(s));
+            modelBuilder.Property(s => s.Code);
+            modelBuilder.Property(s => s.Name);
+        }
+    }
+    
+    class HeroConfiguration : IEntityTypeConfiguration<Hero>
+    {
+        public void Configure(EntityTypeBuilder<Hero> modelBuilder)
+        {
+            modelBuilder.HasKey(s => s.Id);
+            modelBuilder.Property(s => s.Id)
+                .HasConversion(s => s.Value, s => new HeroId(s));
+            modelBuilder.Property(s => s.Name);
+        }
+    }
+    
+    class HeroPowerConfiguration : IEntityTypeConfiguration<HeroPower>
+    {
+        public void Configure(EntityTypeBuilder<HeroPower> modelBuilder)
+        {
+            modelBuilder.HasKey(s => s.Id);
+            modelBuilder.Property(s => s.Id)
+                .HasConversion(s => s.Value, s => new HeroPowerId(s));
+            modelBuilder.HasOne(p => p.Hero)
+                .WithMany(s => s.Superpowers);
+            modelBuilder.HasOne(s => s.Superpower);
+
+        }
+    }
+
+    class HeroAssignmentConfiguration : IEntityTypeConfiguration<HeroAssignment>
+    {
+        public void Configure(EntityTypeBuilder<HeroAssignment> modelBuilder)
+        {
+            modelBuilder.HasKey(s => s.Id);
+            modelBuilder.Property(s => s.Id)
+                .HasConversion(s => s.Value, s => new HeroAssignmentId(s));
+            modelBuilder.HasOne(p => p.Hero)
+                .WithMany(s => s.Assignments);
+            modelBuilder.HasOne(s => s.Customer);
+            modelBuilder.OwnsOne(s => s.Period, p =>
+                {
+                    p.Property(x => x.From);
+                    p.Property(x => x.To);
+                });
+            modelBuilder.Property(x => x.Status);
+        }
+    }
+    
+    class OrderConfiguration : IEntityTypeConfiguration<Order>
+    {
+        public void Configure(EntityTypeBuilder<Order> modelBuilder)
+        {
+            modelBuilder.HasKey(s => s.Id);
+            modelBuilder.Property(s => s.Id)
+                .HasConversion(s => s.Value, s => new OrderId(s));
+            modelBuilder.HasOne(s => s.Superpower);
+            modelBuilder.OwnsOne(s => s.Period, s =>
+                {
+                    s.Property(x => x.From);
+                    s.Property(x => x.To);
+                });
+            modelBuilder.HasOne(s => s.Customer);
+            modelBuilder.Property(s => s.Status);
+            modelBuilder.Property(s => s.ProcessInstanceId);
+            modelBuilder.HasOne(s => s.Offer);
+        }
+    }
+    
+    class OfferConfiguration : IEntityTypeConfiguration<Offer>
+    {
+        public void Configure(EntityTypeBuilder<Offer> modelBuilder)
+        {
+            modelBuilder.HasKey(s => s.Id);
+            modelBuilder.Property(s => s.Id)
+                .HasConversion(s => s.Value, s => new OfferId(s));
+            
+            modelBuilder.HasOne(s => s.Order);
+            
+            modelBuilder.HasOne(s => s.AssignedHero);
+            
+            modelBuilder.Property(s => s.Status);
         }
     }
 }

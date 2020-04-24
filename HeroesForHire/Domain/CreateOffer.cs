@@ -32,9 +32,9 @@ namespace HeroesForHire.Domain
             {
                 var order = await db.Orders.FirstAsync(o => o.Id == request.OrderId, cancellationToken);
                 var candidateHero = await db.Heroes.FirstAsync(h => h.Id == request.SelectedHero, cancellationToken);
-                
-                var heroAvailable = (await db.FindHeroForOrder(order))
-                    .Any(h => h.Id == candidateHero.Id);
+
+                var availableHeroes = await db.FindHeroForOrder(order);
+                var heroAvailable = availableHeroes.Any(h => h.Id == candidateHero.Id);
                 if (!heroAvailable)
                 {
                     throw new ApplicationException(($"Hero {candidateHero.Name} not available!"));
