@@ -13,6 +13,8 @@ namespace HeroesForHire.Domain
         
         public string ProcessInstanceId { get; protected set; }
 
+        public Offer Offer { get; protected set; }
+
         public Order(Customer customer, Superpower superpower, DateRange period)
         {
             Id = OrderId.NewId();
@@ -37,6 +39,16 @@ namespace HeroesForHire.Domain
             var offer = new Offer(this, candidateHero);
             candidateHero.Assign(this.Customer, this.Period);
             this.Status = OrderStatus.OfferCreated;
+            this.Offer = offer;
+        }
+
+        public void AcceptOffer()
+        {
+            if (Status!=OrderStatus.OfferCreated) 
+                throw new ApplicationException("Only order in status OfferCreated can be accepted");
+            
+            Status = OrderStatus.Accepted;
+            Offer.Accept();
         }
     }
 

@@ -34,7 +34,7 @@ namespace HeroesForHire.Controllers.Dtos
                 TaskType = task.TaskDefinitionKey,
                 TaskName = task.Name,
                 Assignee = task.Assignee,
-                OrderId = relatedOrder.Id.Value,
+                OrderId = relatedOrder?.Id.Value,
                 RequestedSuperpower = relatedOrder?.Superpower.Code,
                 OrderFrom = relatedOrder?.Period.From,
                 OrderTo = relatedOrder?.Period.To,

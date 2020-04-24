@@ -16,6 +16,16 @@ namespace HeroesForHire.Domain
             AssignedHero = assignedHero;
             Status = OfferStatus.New;
         }
+
+        protected Offer()
+        {
+        }
+
+        public void Accept()
+        {
+            if (Status!=OfferStatus.New) throw new ApplicationException("Only offer in status new can be accepted");
+            Status = OfferStatus.Accepted;
+        }
     }
 
     public enum OfferStatus

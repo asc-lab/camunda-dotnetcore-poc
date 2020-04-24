@@ -15,6 +15,8 @@ namespace HeroesForHire.DataAccess
         public DbSet<Hero> Heroes { get; set; }
         
         public DbSet<Order> Orders { get; set; }
+        
+        public DbSet<Offer> Offers { get; set; }
 
         public HeroesDbContext(DbContextOptions options) : base(options)
         {
@@ -35,6 +37,7 @@ namespace HeroesForHire.DataAccess
             MapCustomer(modelBuilder);
             MapHero(modelBuilder);
             MapOrder(modelBuilder);
+            MapOffer(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
 
@@ -127,6 +130,26 @@ namespace HeroesForHire.DataAccess
                 .Property(s => s.Status);
             modelBuilder.Entity<Order>()
                 .Property(s => s.ProcessInstanceId);
+            modelBuilder.Entity<Order>()
+                .HasOne(s => s.Offer);
+        }
+        
+        private static void MapOffer(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Offer>()
+                .HasKey(s => s.Id);
+            modelBuilder.Entity<Offer>()
+                .Property(s => s.Id)
+                .HasConversion(s => s.Value, s => new OfferId(s));
+            
+            modelBuilder.Entity<Offer>()
+                .HasOne(s => s.Order);
+            
+            modelBuilder.Entity<Offer>()
+                .HasOne(s => s.AssignedHero);
+            
+            modelBuilder.Entity<Offer>()
+                .Property(s => s.Status);
         }
     }
 }
