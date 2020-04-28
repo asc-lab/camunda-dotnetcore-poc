@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using HeroesForHire.Controllers.Dtos;
 using HeroesForHire.Domain;
@@ -31,6 +32,15 @@ namespace HeroesForHire.Controllers
             });
             
             return Ok();
+        }
+
+        [HttpGet("{orderId}")]
+        public async Task<OrderDto> GetOrderDetails([FromRoute] Guid orderId)
+        {
+            return await bus.Send(new GetOrderDetails.Query
+            {
+                OrderId = new OrderId(orderId)
+            });
         }
 
         [HttpPost("CreateOffer")]

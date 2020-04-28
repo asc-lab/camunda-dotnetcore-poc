@@ -1,0 +1,42 @@
+<h1>Create Offer For Order {{orderId}}</h1>
+
+<form clrForm [formGroup]="form" (ngSubmit)="submit()" *ngIf="order | async; else loading">
+    <!-- orderId, customer, requested power, date from, date to  -->
+    <clr-input-container>
+        <label>Customer</label>
+        <input clrInput type="text" formControlName="customerName" readonly="true"/>
+    </clr-input-container>
+
+    <clr-input-container>
+        <label>Requested power</label>
+        <input clrInput type="text" formControlName="superpowerName" readonly="true"/>
+    </clr-input-container>
+
+    <clr-date-container>
+        <label>Order From</label>
+        <input type="date" clrDate formControlName="orderFrom" readonly="true">
+    </clr-date-container>
+
+    <clr-date-container>
+        <label>Order To</label>
+        <input type="date" clrDate formControlName="orderTo" readonly="true">
+    </clr-date-container>
+    
+    <!-- list of av heros -->
+    <clr-select-container>
+        <label>Required Superpower</label>
+        <select clrSelect formControlName="assignedHeroId">
+            <option [value]="hero.heroId" *ngFor="let hero of availableHeroes">{{hero.name}}</option>
+        </select>
+      </clr-select-container>
+
+    <!-- create order or go back to tasks -->
+    <button class="btn btn-secondary">Back To Tasks</button>
+    <button class="btn btn-primary" type="submit"><clr-icon shape="dollar-bill"></clr-icon> Create Offer</button>
+    
+    
+</form>
+
+<ng-template #loading>
+    Loading Data...
+  </ng-template>
