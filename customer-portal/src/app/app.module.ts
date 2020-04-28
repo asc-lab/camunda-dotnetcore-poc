@@ -15,6 +15,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AuthService } from './_services/auth-service';
 import { JwtInterceptor } from './_services/jwt-interceptor';
+import { SuperPowerService } from './_services/superpowers-service';
+import { OrderService } from './_services/order-service';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { JwtInterceptor } from './_services/jwt-interceptor';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     
-    AuthService
+    AuthService,
+    SuperPowerService, 
+    OrderService
   ],
   bootstrap: [AppComponent]
 })

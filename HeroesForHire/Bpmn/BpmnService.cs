@@ -46,7 +46,7 @@ namespace HeroesForHire
             return processStartResult.Id;
         }
 
-        public async Task<List<UserTaskInfo>> GetTasksForGroup(string group)
+        public async Task<List<UserTaskInfo>> GetTasksForCandidateGroup(string group)
         {
             var taskQuery = new TaskQuery
             {

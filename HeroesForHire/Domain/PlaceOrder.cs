@@ -31,10 +31,12 @@ namespace HeroesForHire.Domain
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                //?? validation
+                
                 var newOrder = new Order
                     (
-                    db.Customers.FirstOrDefault(c=>c.Code==request.CustomerCode),
-                    db.Superpowers.FirstOrDefault(s=>s.Code==request.SuperpowerCode),
+                    db.Customers.First(c=>c.Code==request.CustomerCode),
+                    db.Superpowers.First(s=>s.Code==request.SuperpowerCode),
                     DateRange.Between(request.OrderFrom,request.OrderTo)
                     );
 

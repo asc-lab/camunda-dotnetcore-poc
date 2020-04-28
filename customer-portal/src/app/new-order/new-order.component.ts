@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SuperPowerService } from '../_services/superpowers-service';
+import { OrderService } from '../_services/order-service';
+import { PlaceOrderDto } from '../_model/order.dto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-order',
@@ -9,14 +13,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class NewOrderComponent implements OnInit {
   form: FormGroup;
 
-  superPowers = [
-    {code: 'NIGHT_VISION', name: 'Night Vision'},
-    {code: 'LIGHT_SPEED', name: 'Light Speed'},
-    {code: 'LASER_EYES', name: 'Laser eyes'},
-    {code: 'SUPER_STRENGTH' , name: 'Super Strength'}
-  ];
+  superPowers = [];
   
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private superPowerservice: SuperPowerService,
+    private orderService: OrderService) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -24,11 +27,21 @@ export class NewOrderComponent implements OnInit {
       dateFrom: ['', [Validators.required]],
       dateTo: ['', Validators.required]
     });
+
+    this.superPowerservice.getAllPowers().subscribe(data => {
+      this.superPowers = data;
+    });
   }
 
-  submit() {
+  async submit() {
     if (this.form.valid) {
-      console.log(this.form.value);
+      const dto = new PlaceOrderDto(
+        this.form.value.superpower,
+        this.form.value.dateFrom,
+        this.form.value.dateTo
+      );
+      await this.orderService.placeOrder(dto);
+      this.router.navigate(['home']);
     }
   }
 

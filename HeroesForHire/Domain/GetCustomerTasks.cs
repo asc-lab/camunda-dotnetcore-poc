@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HeroesForHire.Domain
 {
-    public class GetSalesmanTasks
+    public class GetCustomerTasks
     {
         public class Query : IRequest<ICollection<TaskDto>>
         {
-            public string SalesmanLogin { get; set; }
+            public string CustomerCode { get; set; }
         }
-        
+
         public class Handler : IRequestHandler<Query, ICollection<TaskDto>>
         {
             private readonly BpmnService bpmnService;
@@ -29,7 +29,7 @@ namespace HeroesForHire.Domain
 
             public async Task<ICollection<TaskDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var tasks = await bpmnService.GetTasksForCandidateGroup("Sales");
+                var tasks = await bpmnService.GetTasksForCandidateGroup(request.CustomerCode);
                 var processIds = tasks.Select(t => t.ProcessInstanceId).ToList();
 
                 var orders = await db.Orders
@@ -40,8 +40,8 @@ namespace HeroesForHire.Domain
                 var processIdToOrderMap = orders.ToDictionary(o => o.ProcessInstanceId, o => o);
 
                 return (from task in tasks
-                    let relatedOrder = processIdToOrderMap.ContainsKey(task.ProcessInstanceId) ? processIdToOrderMap[task.ProcessInstanceId] : null
-                    select TaskDto.FromEntity(task, relatedOrder))
+                        let relatedOrder = processIdToOrderMap.ContainsKey(task.ProcessInstanceId) ? processIdToOrderMap[task.ProcessInstanceId] : null
+                        select TaskDto.FromEntity(task, relatedOrder))
                     .ToList();
             }
         }
