@@ -50,6 +50,16 @@ namespace HeroesForHire.Domain
             Status = OrderStatus.Accepted;
             Offer.Accept();
         }
+        
+        public void RejectOffer()
+        {
+            if (Status!=OrderStatus.OfferCreated) 
+                throw new ApplicationException("Only order in status OfferCreated can be accepted");
+            
+            Status = OrderStatus.Rejected;
+            Offer.Reject();
+            Offer.AssignedHero.CancelAssignment(Period);
+        }
     }
 
     public enum OrderStatus

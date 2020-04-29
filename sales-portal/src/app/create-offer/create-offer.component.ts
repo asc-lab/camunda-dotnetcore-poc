@@ -57,6 +57,10 @@ export class CreateOfferComponent implements OnInit {
     .pipe(tap(o => this.form.patchValue(o)));
   }
 
+  backToTasks() {
+    this.router.navigate(['home']);
+  }
+
   submit(){
     if (!this.form.valid) {
       return;

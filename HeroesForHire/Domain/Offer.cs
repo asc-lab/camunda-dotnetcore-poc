@@ -26,6 +26,12 @@ namespace HeroesForHire.Domain
             if (Status!=OfferStatus.New) throw new ApplicationException("Only offer in status new can be accepted");
             Status = OfferStatus.Accepted;
         }
+        
+        public void Reject()
+        {
+            if (Status!=OfferStatus.New) throw new ApplicationException("Only offer in status new can be accepted");
+            Status = OfferStatus.Rejected;
+        }
     }
 
     public enum OfferStatus

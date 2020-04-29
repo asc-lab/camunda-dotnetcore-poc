@@ -27,12 +27,18 @@ namespace HeroesForHire.Domain
         {
             Status = AssignmentStatus.Confirmed;
         }
+
+        public void Cancel()
+        {
+            Status = AssignmentStatus.Cancelled;
+        }
     }
 
     public enum AssignmentStatus
     {
         Planned,
-        Confirmed
+        Confirmed,
+        Cancelled
     }
     
     public class HeroAssignmentId : ValueObject<HeroAssignmentId>

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HeroesForHire.Domain
 {
@@ -18,6 +19,10 @@ namespace HeroesForHire.Domain
             Name = name;
         }
 
+        protected Hero()
+        {
+        }
+        
         public Hero AddPower(Superpower power)
         {
             superpowers.Add(new HeroPower(this,power));
@@ -26,12 +31,16 @@ namespace HeroesForHire.Domain
 
         public Hero Assign(Customer customer, DateRange period)
         {
-            assignments.Add(new HeroAssignment(this,customer,period));
+            assignments.Add(new HeroAssignment(this, customer, period));
             return this;
         }
 
-        protected Hero()
+        public void CancelAssignment(DateRange period)
         {
+            var assignmentToCancel =
+                assignments.FirstOrDefault(a => a.Period.From == period.From && a.Period.To == period.To);
+            
+            assignmentToCancel?.Cancel();
         }
     }
 

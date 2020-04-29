@@ -28,7 +28,7 @@ namespace HeroesForHire.DataAccess
             return await Heroes
                 .Where(h =>
                     h.Superpowers.Any(s => s.Superpower.Id == order.Superpower.Id)
-                    && !h.Assignments.Any(a => order.Period.To >= a.Period.From && order.Period.From <= a.Period.To)
+                    && !h.Assignments.Any(a => a.Status!=AssignmentStatus.Cancelled && order.Period.To >= a.Period.From && order.Period.From <= a.Period.To)
                 ).ToListAsync();
         }
 

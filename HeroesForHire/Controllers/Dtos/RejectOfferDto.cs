@@ -3,20 +3,19 @@ using FluentValidation;
 
 namespace HeroesForHire.Controllers.Dtos
 {
-    public class CreateOfferDto
+    public class RejectOfferDto
     {
         public string TaskId { get; set; }
+        
         public Guid OrderId { get; set; }
-        public Guid SelectedHero { get; set; }
     }
     
-    public class CreateOfferDtoValidator : AbstractValidator<CreateOfferDto>
+    public class RejectOfferDtoValidator : AbstractValidator<RejectOfferDto>
     {
-        public CreateOfferDtoValidator()
+        public RejectOfferDtoValidator()
         {
             RuleFor(x => x.TaskId).NotEmpty();
             RuleFor(x => x.OrderId).NotEmpty();
-            RuleFor(x => x.SelectedHero).NotEmpty();
         }
     }
 }

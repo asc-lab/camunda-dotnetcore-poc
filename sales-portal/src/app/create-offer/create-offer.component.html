@@ -12,15 +12,15 @@
         <input clrInput type="text" formControlName="superpowerName" readonly="true"/>
     </clr-input-container>
 
-    <clr-date-container>
+    <clr-input-container>
         <label>Order From</label>
-        <input type="date" clrDate formControlName="orderFrom" readonly="true">
-    </clr-date-container>
+        <input type="text" clrInput formControlName="orderFrom" readonly="true">
+    </clr-input-container>
 
-    <clr-date-container>
+    <clr-input-container>
         <label>Order To</label>
-        <input type="date" clrDate formControlName="orderTo" readonly="true">
-    </clr-date-container>
+        <input type="text" clrInput formControlName="orderTo" readonly="true">
+    </clr-input-container>
     
     <!-- list of av heros -->
     <clr-select-container>
@@ -31,7 +31,7 @@
       </clr-select-container>
 
     <!-- create order or go back to tasks -->
-    <button class="btn btn-secondary">Back To Tasks</button>
+    <button class="btn btn-secondary" (click)="backToTasks()">Back To Tasks</button>
     <button class="btn btn-primary" type="submit"><clr-icon shape="dollar-bill"></clr-icon> Create Offer</button>
     
     

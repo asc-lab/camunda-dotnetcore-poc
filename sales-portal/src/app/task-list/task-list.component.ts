@@ -23,4 +23,8 @@ export class TaskListComponent implements OnInit {
     this.myTasks = await this.taksService.getMyTasks();
   }
 
+  hasAction(task: TaskDto, action: string) {
+    return task.actions && task.actions.indexOf(action)!=-1;
+  }
+
 }

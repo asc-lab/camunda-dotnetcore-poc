@@ -9,6 +9,7 @@ export class TaskDto {
         public orderFrom: Date,
         public orderTo: Date,
         public customer: string,
-        public orderStatus: string 
+        public orderStatus: string,
+        public actions: string[]
     ){}
-}
+ }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Camunda.Api.Client.UserTask;
 using HeroesForHire.Domain;
 
@@ -25,6 +26,8 @@ namespace HeroesForHire.Controllers.Dtos
         public string Customer { get; set; }
         
         public string OrderStatus { get; set; }
+        
+        public List<TaskActions> Actions { get; set; }
 
         public static TaskDto FromEntity(UserTaskInfo task, Order relatedOrder)
         {
@@ -39,7 +42,8 @@ namespace HeroesForHire.Controllers.Dtos
                 OrderFrom = relatedOrder?.Period.From,
                 OrderTo = relatedOrder?.Period.To,
                 Customer = relatedOrder?.Customer.Name,
-                OrderStatus = relatedOrder?.Status.ToString()
+                OrderStatus = relatedOrder?.Status.ToString(),
+                Actions = task.AvailableActions()
             };
         }
     }

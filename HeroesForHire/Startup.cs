@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation.AspNetCore;
+using HeroesForHire.Controllers.Dtos;
 using HeroesForHire.DataAccess;
 using HeroesForHire.Init;
 using MediatR;
@@ -49,7 +51,8 @@ namespace HeroesForHire
             
             services
                 .AddMvc()
-                .AddNewtonsoftJson(opt => opt.SerializerSettings.Converters.Add(new StringEnumConverter()));
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.Converters.Add(new StringEnumConverter()))
+                .AddFluentValidation(fv=>fv.RegisterValidatorsFromAssemblyContaining<PlaceOrderDtoValidator>());
 
             services.AddAuthentication(x =>
                 {

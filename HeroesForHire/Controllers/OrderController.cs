@@ -67,5 +67,17 @@ namespace HeroesForHire.Controllers
             
             return Ok();
         }
+        
+        [HttpPost("RejectOffer")]
+        public async Task<IActionResult> RejectOffer([FromBody] RejectOfferDto request)
+        {
+            await bus.Send(new RejectOffer.Command
+            {
+                TaskId = request.TaskId,
+                OrderId = new OrderId(request.OrderId)
+            });
+            
+            return Ok();
+        }
     }
 }
