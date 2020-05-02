@@ -56,6 +56,18 @@ namespace HeroesForHire.Controllers
             return Ok();
         }
         
+        [HttpPost("NoHeroesAvailable")]
+        public async Task<IActionResult> NoHeroesAvailable([FromBody] NoHeroesForOrderDto request)
+        {
+            await bus.Send(new NotifyNoHerosAvailableForOrder.Command
+            {
+                TaskId = request.TaskId,
+                OrderId = new OrderId(request.OrderId)
+            });
+            
+            return Ok();
+        }
+        
         [HttpPost("AcceptOffer")]
         public async Task<IActionResult> AcceptOffer([FromBody] AcceptOfferDto request)
         {

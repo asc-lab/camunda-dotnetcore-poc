@@ -36,10 +36,19 @@ namespace HeroesForHire.Domain
 
         public void CreateOfferWithHero(Hero candidateHero)
         {
+            if (Status!=OrderStatus.New) 
+                throw new ApplicationException("Only order in status New can have new offer");
             var offer = new Offer(this, candidateHero);
             candidateHero.Assign(this.Customer, this.Period);
             this.Status = OrderStatus.OfferCreated;
             this.Offer = offer;
+        }
+
+        public void RejectBecauseNoHeroesAvailable()
+        {
+            if (Status!=OrderStatus.New) 
+                throw new ApplicationException("Only order in status New can be ended with no heroes available");
+            this.Status = OrderStatus.NoHeroesAvailable;
         }
 
         public void AcceptOffer()
