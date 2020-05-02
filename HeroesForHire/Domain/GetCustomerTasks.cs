@@ -29,7 +29,7 @@ namespace HeroesForHire.Domain
 
             public async Task<ICollection<TaskDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var tasks = await bpmnService.GetTasksForCandidateGroup(request.CustomerCode);
+                var tasks = await bpmnService.GetTasksForCandidateGroup(request.CustomerCode, null);
                 var processIds = tasks.Select(t => t.ProcessInstanceId).ToList();
 
                 var orders = await db.Orders

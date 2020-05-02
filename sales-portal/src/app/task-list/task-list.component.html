@@ -15,10 +15,13 @@
                 <div class="card-text">
                     Requested {{task.requestedSuperpower}} from {{task.orderFrom}} to {{task.orderTo}}
                 </div>
+                <div class="card-text">
+                    Assignee {{task.assignee}} 
+                </div>
             </div>
             <div class="card-footer">
-                <button *ngIf="hasAction(task,'CreateOffer')" class="btn btn-sm btn-link" [routerLink]="['/create-offer', task.orderId, task.taskId]">Create offer</button>
-                <button class="btn btn-sm btn-link">Claim task</button>
+                <button *ngIf="!isAssigneeCurrentUser(task)" (click)="claimTask(task)" class="btn btn-sm btn-link">Claim task</button>
+                <button *ngIf="isAssigneeCurrentUser(task)" (click)="performTask(task)" class="btn btn-sm btn-link">Perform task</button>
             </div>
         </div>
     </div>

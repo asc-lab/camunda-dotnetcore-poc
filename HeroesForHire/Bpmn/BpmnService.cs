@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Camunda.Api.Client;
 using Camunda.Api.Client.Deployment;
 using Camunda.Api.Client.ProcessDefinition;
+using Camunda.Api.Client.ProcessInstance;
 using Camunda.Api.Client.UserTask;
 using HeroesForHire.Controllers.Dtos;
 using HeroesForHire.Domain;
@@ -46,25 +48,35 @@ namespace HeroesForHire
             return processStartResult.Id;
         }
 
-        public async Task<List<UserTaskInfo>> GetTasksForCandidateGroup(string group)
+        public async Task<List<UserTaskInfo>> GetTasksForCandidateGroup(string group, string user)
         {
-            var taskQuery = new TaskQuery
+            var groupTaskQuery = new TaskQuery
             {
                 ProcessDefinitionKeys = { "Process_Hire_Hero" },
                 CandidateGroup = group
             };
+            var groupTasks = await camunda.UserTasks.Query(groupTaskQuery).List();
 
+            if (user != null)
+            {
+                var userTaskQuery = new TaskQuery
+                {
+                    ProcessDefinitionKeys = { "Process_Hire_Hero" },
+                    Assignee = user
+                };
+                var userTasks = await camunda.UserTasks.Query(userTaskQuery).List();
+
+                groupTasks.AddRange(userTasks);    
+            }
             
-            var tasks = await camunda.UserTasks.Query(taskQuery).List();
-
-            return tasks;
+            return groupTasks;
         }
 
         public async Task<UserTaskInfo> ClaimTask(string taskId, string user)
         {
-            var task = await camunda.UserTasks[taskId].Get();
-
             await camunda.UserTasks[taskId].Claim(user);
+            
+            var task = await camunda.UserTasks[taskId].Get();
             
             return task;
         }
@@ -79,6 +91,24 @@ namespace HeroesForHire
             await camunda.UserTasks[taskId].Complete(completeTask);
             
             return task;
+        }
+
+        public async Task CleanupProcessInstances()
+        {
+            var instances = await camunda.ProcessInstances
+                .Query(new ProcessInstanceQuery
+                {
+                    ProcessDefinitionKey = "Process_Hire_Hero"
+                })
+                .List();
+
+            if (instances.Count>0)
+            {
+                await camunda.ProcessInstances.Delete(new DeleteProcessInstances
+                {
+                    ProcessInstanceIds = instances.Select(i=>i.Id).ToList()
+                });
+            }
         }
     }
 }
