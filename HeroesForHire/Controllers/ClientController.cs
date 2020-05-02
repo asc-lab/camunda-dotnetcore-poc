@@ -28,5 +28,15 @@ namespace HeroesForHire.Controllers
                 CustomerCode = User.CompanyCode()
             });
         }
+        
+        [HttpGet("MyTasks")]
+        public async Task<ICollection<TaskDto>> ClientTasks()
+        {
+            return await bus.Send(new GetCustomerTasks.Query
+            {
+                CustomerCode = User.CompanyCode(),
+                CustomerLogin = User.Identity.Name 
+            });
+        }
     }
 }

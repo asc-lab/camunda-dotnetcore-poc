@@ -17,6 +17,7 @@ import { AuthService } from './_services/auth-service';
 import { JwtInterceptor } from './_services/jwt-interceptor';
 import { SuperPowerService } from './_services/superpowers-service';
 import { OrderService } from './_services/order-service';
+import { TaskService } from './_services/task-service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { OrderService } from './_services/order-service';
     
     AuthService,
     SuperPowerService, 
-    OrderService
+    OrderService,
+    TaskService
   ],
   bootstrap: [AppComponent]
 })

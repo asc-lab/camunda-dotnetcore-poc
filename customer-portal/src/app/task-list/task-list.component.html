@@ -1,3 +1,31 @@
+<h1>My tasks</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="left">Order number</th>
+            <th>Superpower</th>
+            <th>Period</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let task of myTasks">
+            <td class="left">{{task.orderId}}</td>
+            <td>{{task.requestedSuperpower}}</td>
+            <td>{{task.orderFrom}} {{task.orderTo}}</td>
+            <td>{{task.orderStatus}}</td>
+            <td>
+                <button *ngIf="!isAssigneeCurrentUser(task)" (click)="claimTask(task)" class="btn btn-outline btn-sm">Claim task</button>
+                <button (click)="performTask(task)" class="btn btn-outline btn-sm">{{task.taskName}}</button>
+            </td>
+        </tr>
+        <tr *ngIf="myTasks.length==0">
+            <td colspan="5">No tasks orders</td>
+        </tr>
+    </tbody>
+</table>
+
 <h1>My pending orders</h1>
 <table class="table">
     <thead>

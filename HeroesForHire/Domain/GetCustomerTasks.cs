@@ -14,6 +14,7 @@ namespace HeroesForHire.Domain
         public class Query : IRequest<ICollection<TaskDto>>
         {
             public string CustomerCode { get; set; }
+            public string CustomerLogin { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, ICollection<TaskDto>>
@@ -29,7 +30,7 @@ namespace HeroesForHire.Domain
 
             public async Task<ICollection<TaskDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var tasks = await bpmnService.GetTasksForCandidateGroup(request.CustomerCode, null);
+                var tasks = await bpmnService.GetTasksForCandidateGroup(request.CustomerCode, request.CustomerLogin);
                 var processIds = tasks.Select(t => t.ProcessInstanceId).ToList();
 
                 var orders = await db.Orders
