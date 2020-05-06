@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 
 import { ClarityModule } from "@clr/angular";
 import { TaskListComponent } from './task-list/task-list.component';
-import { NewOrderComponent } from './new-order/new-order.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';

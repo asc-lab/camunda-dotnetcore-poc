@@ -61,6 +61,10 @@ export class CreateOfferComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
+  noHeroes() {
+    
+  }
+
   submit(){
     if (!this.form.valid) {
       return;
