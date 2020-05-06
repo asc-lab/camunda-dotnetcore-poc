@@ -24,7 +24,6 @@ import { OrderService } from './_services/order-service';
   declarations: [
     AppComponent,
     TaskListComponent,
-    NewOrderComponent,
     LoginComponent,
     CreateOfferComponent
   ],
