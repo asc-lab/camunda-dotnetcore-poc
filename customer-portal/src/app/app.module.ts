@@ -18,13 +18,15 @@ import { JwtInterceptor } from './_services/jwt-interceptor';
 import { SuperPowerService } from './_services/superpowers-service';
 import { OrderService } from './_services/order-service';
 import { TaskService } from './_services/task-service';
+import { OfferDetailsComponent } from './offer-details/offer-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskListComponent,
     NewOrderComponent,
-    LoginComponent
+    LoginComponent,
+    OfferDetailsComponent
   ],
   imports: [
     BrowserModule,

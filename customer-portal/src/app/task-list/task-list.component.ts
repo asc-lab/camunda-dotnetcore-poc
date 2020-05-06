@@ -4,6 +4,7 @@ import { OrderDto } from '../_model/order.dto';
 import { TaskDto } from '../_model/task.dto';
 import { TaskService } from '../_services/task-service';
 import { AuthService } from '../_services/auth-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
@@ -17,6 +18,7 @@ export class TaskListComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private taskService: TaskService,
+    private router: Router,
     private auth: AuthService) { }
 
   ngOnInit(): void {
@@ -33,10 +35,18 @@ export class TaskListComponent implements OnInit {
   }
 
   performTask(task: TaskDto) {
-    //navigate to task screen based on type
+    switch (task.taskType) {
+      case 'Task_AcceptOffer': 
+      this.router.navigate(['/accept-offer', task.orderId, task.taskId]);
+        break;
+      default:
+        alert('Unknown task type!!!') 
+    }
   }
 
-  claimTask(task: TaskDto) {
+  async claimTask(task: TaskDto) {
+    const result = await this.taskService.claimTask(task);
+    task.assignee = result.assignee;
   }
 
   isAssigneeCurrentUser(task: TaskDto) {

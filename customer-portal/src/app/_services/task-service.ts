@@ -10,4 +10,8 @@ export class TaskService {
     getCustomerTasks(): Promise<TaskDto[]> {
         return this.http.get<TaskDto[]>(`${environment.apiUrl}/Client/MyTasks`).toPromise();
     }
+
+    claimTask(task: TaskDto) : Promise<TaskDto> {
+        return this.http.post<TaskDto>(`${environment.apiUrl}/Client/MyTasks/${task.taskId}/claim`,{}).toPromise();
+    }
 }

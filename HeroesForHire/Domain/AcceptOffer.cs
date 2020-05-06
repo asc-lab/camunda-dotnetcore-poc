@@ -34,6 +34,8 @@ namespace HeroesForHire.Domain
                     .FirstAsync(o=>o.Id==request.OrderId,cancellationToken);
 
                 order.AcceptOffer();
+                
+                await db.SaveChangesAsync(cancellationToken);
 
                 await bpmnService.CompleteTask(request.TaskId, order);
                 

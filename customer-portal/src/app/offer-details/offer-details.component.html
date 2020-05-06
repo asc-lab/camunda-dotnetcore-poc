@@ -1,6 +1,6 @@
-<h1>Create Offer For Order {{orderId}}</h1>
+<h1>Accept Offer For Order {{orderId}}</h1>
 
-<form clrForm [formGroup]="form" (ngSubmit)="submit()" *ngIf="order | async; else loading">
+<form clrForm [formGroup]="form" *ngIf="order | async; else loading">
     <!-- orderId, customer, requested power, date from, date to  -->
     <clr-input-container>
         <label>Customer</label>
@@ -22,18 +22,17 @@
         <input type="text" clrInput formControlName="orderTo" readonly="true">
     </clr-input-container>
     
-    <!-- list of av heros -->
-    <clr-select-container>
-        <label>Selected Availale Hero</label>
-        <select clrSelect formControlName="assignedHeroId">
-            <option [value]="hero.heroId" *ngFor="let hero of availableHeroes">{{hero.name}}</option>
-        </select>
-      </clr-select-container>
+    <clr-input-container>
+        <label>Hero</label>
+        <input type="text" clrInput formControlName="assignedHeroName" readonly="true">
+      </clr-input-container>
 
-    <!-- create order or go back to tasks -->
-    <button class="btn btn-secondary" (click)="backToTasks()">Back To Tasks</button>
-    <button class="btn btn-primary" type="submit"><clr-icon shape="dollar-bill"></clr-icon> Create Offer</button>
+    <!-- accept or reject or go back to tasks -->
     
+    <button class="btn btn-secondary" (click)="backToTasks()">Back To Tasks</button>
+    <button class="btn btn-primary" (click)="accept()"><clr-icon shape="check"></clr-icon> Accept Offer</button>
+    <button class="btn btn-danger" (click)="reject()"><clr-icon shape="times"></clr-icon> Reject Offer</button>
+
     
 </form>
 

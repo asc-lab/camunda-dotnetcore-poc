@@ -6,6 +6,19 @@ export class PlaceOrderDto {
 
 }
 
+export class AcceptOfferDto {
+    constructor(
+        public taskId: string,
+        public orderId: string
+    ){}
+}
+
+export class RejectOfferDto {
+    constructor(
+        public taskId: string,
+        public orderId: string
+    ){}
+}
 
 export class OrderDto {
     constructor(

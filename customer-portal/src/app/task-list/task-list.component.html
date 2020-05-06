@@ -6,6 +6,7 @@
             <th>Superpower</th>
             <th>Period</th>
             <th>Status</th>
+            <th>Assignee</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -15,13 +16,14 @@
             <td>{{task.requestedSuperpower}}</td>
             <td>{{task.orderFrom}} {{task.orderTo}}</td>
             <td>{{task.orderStatus}}</td>
+            <td>{{task.assignee}}</td>
             <td>
-                <button *ngIf="!isAssigneeCurrentUser(task)" (click)="claimTask(task)" class="btn btn-outline btn-sm">Claim task</button>
-                <button (click)="performTask(task)" class="btn btn-outline btn-sm">{{task.taskName}}</button>
+                <button *ngIf="!isAssigneeCurrentUser(task)" (click)="claimTask(task)" class="btn btn-outline btn-sm"><clr-icon shape="user"></clr-icon> Claim task</button>
+                <button *ngIf="isAssigneeCurrentUser(task)" (click)="performTask(task)" class="btn btn-outline btn-sm"><clr-icon shape="pencil"></clr-icon> {{task.taskName}}</button>
             </td>
         </tr>
-        <tr *ngIf="myTasks.length==0">
-            <td colspan="5">No tasks orders</td>
+        <tr *ngIf="myTasks && myTasks.length==0">
+            <td colspan="5">No tasks</td>
         </tr>
     </tbody>
 </table>
@@ -45,7 +47,7 @@
             <td>{{pendingOrder.assignedHeroName}}</td>
             <td>{{pendingOrder.status}}</td>
         </tr>
-        <tr *ngIf="pendingOrders.length==0">
+        <tr *ngIf="pendingOrders && pendingOrders.length==0">
             <td colspan="5">No pending orders</td>
         </tr>
     </tbody>

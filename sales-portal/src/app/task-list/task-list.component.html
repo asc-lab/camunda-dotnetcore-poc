@@ -1,4 +1,9 @@
 <h1>My tasks</h1>
+<div *ngIf="myTasks && myTasks.length==0" class="clr-row">
+    <div class="clr-col-lg-6 clr-col-12">
+        You have no tasks!!!
+    </div>
+</div>
 <div class="clr-row">
     <div class="clr-col-lg-6 clr-col-12">
         <div class="card" *ngFor="let task of myTasks">

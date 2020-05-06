@@ -32,6 +32,8 @@ namespace HeroesForHire.Domain
 
                 order.RejectBecauseNoHeroesAvailable();
                 
+                await db.SaveChangesAsync(cancellationToken);
+                
                 await bpmnService.CompleteTask(request.TaskId, order);
                 
                 return Unit.Value;
