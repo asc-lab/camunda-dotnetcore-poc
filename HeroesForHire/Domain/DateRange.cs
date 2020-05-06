@@ -20,6 +20,8 @@ namespace HeroesForHire.Domain
 
         public static DateRange Between(DateTime @from, DateTime to) => new DateRange(@from,to);
 
+        public DateRange Clone() => Between(From, To);
+        
         protected override IEnumerable<object> GetAttributesToIncludeInEqualityCheck()
         {
             yield return From;

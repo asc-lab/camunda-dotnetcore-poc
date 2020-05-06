@@ -31,7 +31,7 @@ namespace HeroesForHire.Init
             var fly = new Superpower("FLY", "Fly ability");
             db.Superpowers.Add(fly);
 
-            var wisdom = new Superpower("WISDOM", "Wisodom");
+            var wisdom = new Superpower("WISDOM", "Wisdom");
             db.Superpowers.Add(wisdom);
 
             

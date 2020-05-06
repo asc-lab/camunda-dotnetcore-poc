@@ -39,7 +39,7 @@ namespace HeroesForHire.Domain
             if (Status!=OrderStatus.New) 
                 throw new ApplicationException("Only order in status New can have new offer");
             var offer = new Offer(this, candidateHero);
-            candidateHero.Assign(this.Customer, this.Period);
+            candidateHero.Assign(this.Customer, this.Period.Clone());
             this.Status = OrderStatus.OfferCreated;
             this.Offer = offer;
         }

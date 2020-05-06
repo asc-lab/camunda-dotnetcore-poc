@@ -10,9 +10,6 @@
 			<a class="active nav-link nav-text" routerLink="tasks">Home</a>
     </div>
     <div class="header-nav" *ngIf="currentUser">
-			<a class="nav-link nav-text" routerLink="new-order" >New Order</a>
-    </div>
-    <div class="header-nav" *ngIf="currentUser">
 			<a class="nav-link nav-text" (click)="logout()" >Logout</a>
     </div>
     
