@@ -59,7 +59,7 @@ namespace HeroesForHire.Controllers
         [HttpPost("NoHeroesAvailable")]
         public async Task<IActionResult> NoHeroesAvailable([FromBody] NoHeroesForOrderDto request)
         {
-            await bus.Send(new NotifyNoHerosAvailableForOrder.Command
+            await bus.Send(new RejectForNoHerosAvailableForOrder.Command
             {
                 TaskId = request.TaskId,
                 OrderId = new OrderId(request.OrderId)
@@ -87,6 +87,17 @@ namespace HeroesForHire.Controllers
             {
                 TaskId = request.TaskId,
                 OrderId = new OrderId(request.OrderId)
+            });
+            
+            return Ok();
+        }
+        
+        [HttpPost("MarkInvoicePaid")]
+        public async Task<IActionResult> MarkInvoicePaid([FromBody] MarkInvoicePaidDto request)
+        {
+            await bus.Send(new MarkOrderPaid.Command
+            {
+                InvoiceId = new InvoiceId(request.InvoiceId)
             });
             
             return Ok();

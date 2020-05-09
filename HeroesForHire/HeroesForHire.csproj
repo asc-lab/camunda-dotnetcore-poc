@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <PackageReference Include="Camunda.Api.Client" Version="2.5.0" />
+      <PackageReference Include="Camunda.Worker" Version="0.9.0" />
       <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.3" />

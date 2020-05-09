@@ -1,0 +1,30 @@
+<h1>Pending invoices</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="left">Invoice number</th>
+            <th class="left">Order number</th>
+            <th>Customer</th>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let invoice of invoices">
+            <td class="left">{{invoice.invoiceId}}</td>
+            <td class="left">{{invoice.orderId}}</td>
+            <td>{{invoice.customerName}}</td>
+            <td>{{invoice.title}}</td>
+            <td>{{invoice.total}} USD</td>
+            <td>{{invoice.status}}</td>
+            <td>
+                <button *ngIf="invoice.status==='NEW'" (click)="markAsPaid(invoice)" class="btn btn-outline btn-sm"><clr-icon shape="dollar-bill"></clr-icon> Confirm payment</button>
+            </td>
+        </tr>
+        <tr *ngIf="invoices && invoices.length==0">
+            <td colspan="7">No pending invoices</td>
+        </tr>
+    </tbody>
+</table>

@@ -29,6 +29,15 @@ namespace HeroesForHire.Controllers
             });
         }
         
+        [HttpGet("Invoices")]
+        public async Task<ICollection<InvoiceDto>> ClientInvoices()
+        {
+            return await bus.Send(new FindInvoices.Query
+            {
+                CustomerCode = User.CompanyCode()
+            });
+        }
+        
         [HttpGet("MyTasks")]
         public async Task<ICollection<TaskDto>> ClientTasks()
         {

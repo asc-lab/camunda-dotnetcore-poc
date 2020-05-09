@@ -4,6 +4,7 @@ import { TaskListComponent } from './task-list/task-list.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './_services/auth-guard';
 import { CreateOfferComponent } from './create-offer/create-offer.component';
+import { InvoicesListComponent } from './invoices-list/invoices-list.component';
 
 
 const routes: Routes = [
@@ -11,7 +12,8 @@ const routes: Routes = [
   { path: 'home' , component: TaskListComponent, canActivate: [AuthGuard]},
   { path: 'tasks' , component: TaskListComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent },
-  { path: 'create-offer/:orderId/:taskId', component: CreateOfferComponent, canActivate: [AuthGuard]}
+  { path: 'create-offer/:orderId/:taskId', component: CreateOfferComponent, canActivate: [AuthGuard]},
+  { path: 'invoices', component: InvoicesListComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

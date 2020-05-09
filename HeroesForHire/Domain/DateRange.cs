@@ -7,6 +7,7 @@ namespace HeroesForHire.Domain
     {
         public virtual DateTime From { get; }
         public virtual DateTime To { get; }
+        public decimal NumberOfDays => To.Subtract(From).Days + 1;
 
         public DateRange(DateTime @from, DateTime to)
         {

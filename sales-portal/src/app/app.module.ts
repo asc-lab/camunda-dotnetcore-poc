@@ -19,13 +19,15 @@ import { CreateOfferComponent } from './create-offer/create-offer.component';
 import { SuperPowerService } from './_services/superpower-service';
 import { HeroService } from './_services/hero-service';
 import { OrderService } from './_services/order-service';
+import { InvoicesListComponent } from './invoices-list/invoices-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskListComponent,
     LoginComponent,
-    CreateOfferComponent
+    CreateOfferComponent,
+    InvoicesListComponent
   ],
   imports: [
     BrowserModule,

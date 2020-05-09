@@ -40,22 +40,22 @@ namespace HeroesForHire.Init
             var un = new Customer(CustomerId.NewId(), "UN", "United Nations");
             db.Customers.Add(un);
             
-            var batman = new Hero(HeroId.NewId(), "Batman")
+            var batman = new Hero(HeroId.NewId(), "Batman", 1_000M)
                 .AddPower(nightVision)
                 .AddPower(superStrength);
-            var darkWing = new Hero(HeroId.NewId(), "Dark Wing")
+            var darkWing = new Hero(HeroId.NewId(), "Dark Wing", 800M)
                 .AddPower(superSpeed)
                 .AddPower(nightVision);
-            var captainAmerica = new Hero(HeroId.NewId(), "Captain America")
+            var captainAmerica = new Hero(HeroId.NewId(), "Captain America", 1_100M)
                 .AddPower(superStrength);
-            var hulk = new Hero(HeroId.NewId(), "Hulk")
+            var hulk = new Hero(HeroId.NewId(), "Hulk", 500M)
                 .AddPower(superStrength);
-            var superman = new Hero(HeroId.NewId(), "Superman")
+            var superman = new Hero(HeroId.NewId(), "Superman", 2_000M)
                 .AddPower(superStrength)
                 .AddPower(xRayVision)
                 .AddPower(superSpeed)
                 .AddPower(fly);
-            var wonderWoman = new Hero(HeroId.NewId(), "Wonder Woman")
+            var wonderWoman = new Hero(HeroId.NewId(), "Wonder Woman", 2_500M)
                 .AddPower(superStrength)
                 .AddPower(superSpeed)
                 .AddPower(wisdom);

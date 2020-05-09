@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Camunda.Worker;
+using Camunda.Worker.Extensions;
 using FluentValidation.AspNetCore;
 using HeroesForHire.Controllers.Dtos;
 using HeroesForHire.DataAccess;

@@ -19,6 +19,15 @@ namespace HeroesForHire.Controllers
         {
             this.bus = bus;
         }
+        
+        [HttpGet("PendingInvoices")]
+        public async Task<ICollection<InvoiceDto>> PendingInvoices()
+        {
+            return await bus.Send(new FindInvoices.Query
+            {
+                Statuses = new List<InvoiceStatus> { InvoiceStatus.NEW }
+            });
+        }
 
         [HttpGet("MyTasks")]
         public async Task<ICollection<TaskDto>> MyTasks()

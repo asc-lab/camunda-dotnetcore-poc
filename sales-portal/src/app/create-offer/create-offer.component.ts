@@ -61,8 +61,9 @@ export class CreateOfferComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
-  noHeroes() {
-    
+  async noHeroes() {
+    await this.orderService.rejectOrderWhenNoHeroesAvailable(this.taskId, this.orderId).toPromise();
+    this.router.navigate(['home']);
   }
 
   submit(){

@@ -18,6 +18,10 @@ namespace HeroesForHire.DataAccess
         public DbSet<Order> Orders { get; set; }
         
         public DbSet<Offer> Offers { get; set; }
+        
+        public DbSet<Invoice> Invoices { get; set; }
+        
+        public DbSet<Notification> Notifications { get; set; }
 
         public HeroesDbContext(DbContextOptions options) : base(options)
         {
@@ -46,6 +50,8 @@ namespace HeroesForHire.DataAccess
             modelBuilder.ApplyConfiguration(new HeroAssignmentConfiguration());
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
             modelBuilder.ApplyConfiguration(new OfferConfiguration());
+            modelBuilder.ApplyConfiguration(new NotificationConfiguration());
+            modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
             base.OnModelCreating(modelBuilder);
         }
 
@@ -100,6 +106,7 @@ namespace HeroesForHire.DataAccess
             modelBuilder.Property(s => s.Id)
                 .HasConversion(s => s.Value, s => new HeroId(s));
             modelBuilder.Property(s => s.Name);
+            modelBuilder.Property(s => s.DailyRate);
         }
     }
     
@@ -169,6 +176,40 @@ namespace HeroesForHire.DataAccess
             modelBuilder.HasOne(s => s.AssignedHero);
             
             modelBuilder.Property(s => s.Status);
+        }
+    }
+    
+    class NotificationConfiguration : IEntityTypeConfiguration<Notification>
+    {
+        public void Configure(EntityTypeBuilder<Notification> modelBuilder)
+        {
+            modelBuilder.HasKey(s => s.Id);
+            modelBuilder.Property(s => s.Id)
+                .HasConversion(s => s.Value, s => new NotificationId(s));
+            modelBuilder.Property(s => s.Text);
+            modelBuilder.Property(s => s.TargetGroup);
+            modelBuilder.Property(s => s.TargetUser);
+            modelBuilder.Property(s => s.IsRead);
+        }
+    }
+    
+    class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
+    {
+        public void Configure(EntityTypeBuilder<Invoice> modelBuilder)
+        {
+            modelBuilder.HasKey(s => s.Id);
+            modelBuilder.Property(s => s.Id)
+                .HasConversion(s => s.Value, s => new InvoiceId(s));
+            
+            modelBuilder.HasOne(s => s.Order);
+            
+            modelBuilder.HasOne(s => s.Customer);
+            
+            modelBuilder.Property(s => s.Status);
+            
+            modelBuilder.Property(s => s.Title);
+
+            modelBuilder.Property((s => s.Amount));
         }
     }
 }

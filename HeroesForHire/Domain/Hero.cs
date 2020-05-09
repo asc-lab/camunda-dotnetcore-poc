@@ -13,10 +13,13 @@ namespace HeroesForHire.Domain
         private List<HeroAssignment> assignments = new List<HeroAssignment>();
         public virtual ICollection<HeroAssignment> Assignments => assignments.AsReadOnly();
         
-        public Hero(HeroId id, string name)
+        public decimal DailyRate { get; private set; }
+        
+        public Hero(HeroId id, string name, decimal rate)
         {
             Id = id;
             Name = name;
+            DailyRate = rate;
         }
 
         protected Hero()
