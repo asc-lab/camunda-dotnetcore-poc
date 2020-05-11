@@ -8,12 +8,12 @@ namespace HeroesForHire.Domain
 {
     public class CreateInvoice
     {
-        public class Command : IRequest<Unit>
+        public class Command : IRequest<InvoiceId>
         {
             public OrderId OrderId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Unit>
+        public class Handler : IRequestHandler<Command, InvoiceId>
         {
             private readonly HeroesDbContext db;
 
@@ -22,7 +22,7 @@ namespace HeroesForHire.Domain
                 this.db = db;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<InvoiceId> Handle(Command request, CancellationToken cancellationToken)
             {
                 var order = await db.Orders.FirstAsync(o => o.Id == request.OrderId, cancellationToken);
 
@@ -31,8 +31,8 @@ namespace HeroesForHire.Domain
                 db.Invoices.Add(invoice);
 
                 await db.SaveChangesAsync(cancellationToken);
-                
-                return Unit.Value;
+
+                return invoice.Id;
             }
         }
     }

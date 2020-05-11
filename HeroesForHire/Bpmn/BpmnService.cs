@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Camunda.Api.Client;
 using Camunda.Api.Client.Deployment;
+using Camunda.Api.Client.Message;
 using Camunda.Api.Client.ProcessDefinition;
 using Camunda.Api.Client.ProcessInstance;
 using Camunda.Api.Client.UserTask;
@@ -42,6 +43,9 @@ namespace HeroesForHire
                 .SetVariable("orderId", VariableValue.FromObject(order.Id.Value.ToString()))
                 .SetVariable("orderStatus", VariableValue.FromObject(order.Status.ToString()))
                 .SetVariable("customerCode", VariableValue.FromObject(order.Customer.Code));
+
+            processParams.BusinessKey = order.Id.Value.ToString();
+            
             var processStartResult = await 
                 camunda.ProcessDefinitions.ByKey("Process_Hire_Hero").StartProcessInstance(processParams);
 
@@ -91,6 +95,15 @@ namespace HeroesForHire
             await camunda.UserTasks[taskId].Complete(completeTask);
             
             return task;
+        }
+        
+        public async Task SendMessageInvoicePaid(Order order)
+        {
+            await camunda.Messages.DeliverMessage(new CorrelationMessage
+            {
+                BusinessKey = order.Id.Value.ToString(),
+                MessageName = "Message_InvoicePaid"
+            });
         }
 
         public async Task CleanupProcessInstances()

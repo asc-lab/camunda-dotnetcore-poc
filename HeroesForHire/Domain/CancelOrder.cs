@@ -6,33 +6,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HeroesForHire.Domain
 {
-    public class MarkOrderPaid
+    public class CancelOrder
     {
         public class Command : IRequest<Unit>
         {
+            public OrderId OrderId { get; set; }
             public InvoiceId InvoiceId { get; set; }
         }
-        
+
         public class Handler : IRequestHandler<Command, Unit>
         {
             private readonly HeroesDbContext db;
-            private readonly BpmnService bpmnService;
 
-            public Handler(HeroesDbContext db, BpmnService bpmnService)
+            public Handler(HeroesDbContext db)
             {
                 this.db = db;
-                this.bpmnService = bpmnService;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                var order = await db.Orders.FirstAsync(o => o.Id == request.OrderId, cancellationToken);
                 var invoice = await db.Invoices.FirstAsync(i => i.Id == request.InvoiceId, cancellationToken);
-                
-                invoice.MarkPaid();
+
+                order.Cancel();
+                invoice.Cancel();
                 
                 await db.SaveChangesAsync(cancellationToken);
-                
-                await bpmnService.SendMessageInvoicePaid(invoice.Order);
                 
                 return Unit.Value;
             }

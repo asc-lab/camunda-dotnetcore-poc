@@ -69,6 +69,15 @@ namespace HeroesForHire.Domain
             Offer.Reject();
             Offer.AssignedHero.CancelAssignment(Period);
         }
+
+        public void Cancel()
+        {
+            if (Status!=OrderStatus.Accepted) 
+                throw new ApplicationException("Only order in status Accepted can be accepted");
+            
+            Status = OrderStatus.Cancelled;
+            Offer.AssignedHero.CancelAssignment(Period);
+        }
     }
 
     public enum OrderStatus
@@ -77,7 +86,8 @@ namespace HeroesForHire.Domain
         OfferCreated,
         NoHeroesAvailable,
         Accepted,
-        Rejected
+        Rejected,
+        Cancelled
     }
     
     public class OrderId : ValueObject<OrderId>
