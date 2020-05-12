@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 using HeroesForHire.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,8 @@ namespace HeroesForHire.Domain
             
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                using var tx = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+                
                 var order = await db.Orders
                     .Include(o=>o.Offer)
                     .ThenInclude(o => o.AssignedHero)
@@ -38,6 +41,8 @@ namespace HeroesForHire.Domain
                 await db.SaveChangesAsync(cancellationToken);
 
                 await bpmnService.CompleteTask(request.TaskId, order);
+                
+                tx.Complete();
                 
                 return Unit.Value;
             }

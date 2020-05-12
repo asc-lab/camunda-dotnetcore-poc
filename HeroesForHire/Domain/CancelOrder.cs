@@ -37,6 +37,7 @@ namespace HeroesForHire.Domain
                 await db.SaveChangesAsync(cancellationToken);
                     
                 tx.Complete();
+                
                 return Unit.Value;
             }
         }

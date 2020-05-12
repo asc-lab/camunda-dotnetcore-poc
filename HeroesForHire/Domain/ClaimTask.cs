@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 using HeroesForHire.Controllers.Dtos;
 using HeroesForHire.DataAccess;
 using MediatR;
@@ -28,12 +29,18 @@ namespace HeroesForHire.Domain
 
             public async Task<TaskDto> Handle(Command request, CancellationToken cancellationToken)
             {
+                using var tx = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+                
                 var claimedTask = await bpmnService.ClaimTask(request.TaskId, request.UserLogin);
 
                 var order = await db.Orders
                     .FirstOrDefaultAsync(o => o.ProcessInstanceId == claimedTask.ProcessInstanceId, cancellationToken);
 
-                return TaskDto.FromEntity(claimedTask, order);
+                var orderDto = TaskDto.FromEntity(claimedTask, order);
+                
+                tx.Complete();
+                
+                return orderDto;
             }
         }
     }

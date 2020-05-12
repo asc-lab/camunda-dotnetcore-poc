@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using HeroesForHire.DataAccess;
 using HeroesForHire.Domain;
@@ -17,6 +18,9 @@ namespace HeroesForHire.Init
         public async Task SeedData()
         {
             db.Database.EnsureCreated();
+            
+            if (db.Superpowers.Any())
+                return;
             
             var nightVision = new Superpower("NIGHT_VISION", "Night vision");
             db.Superpowers.Add(nightVision);

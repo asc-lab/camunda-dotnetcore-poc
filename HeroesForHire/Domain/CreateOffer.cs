@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 using HeroesForHire.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,8 @@ namespace HeroesForHire.Domain
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                using var tx = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+                
                 var order = await db.Orders.FirstAsync(o => o.Id == request.OrderId, cancellationToken);
                 var candidateHero = await db.Heroes.FirstAsync(h => h.Id == request.SelectedHero, cancellationToken);
 
@@ -45,6 +48,8 @@ namespace HeroesForHire.Domain
                 await db.SaveChangesAsync(cancellationToken);
                 
                 await bpmnService.CompleteTask(request.TaskId, order);
+                
+                tx.Complete();
                 
                 return Unit.Value;
             }

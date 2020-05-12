@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 using Camunda.Api.Client.UserTask;
 using HeroesForHire.DataAccess;
 using MediatR;
@@ -27,6 +28,8 @@ namespace HeroesForHire.Domain
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                using var tx = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+                
                 var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == request.OrderId, cancellationToken);
 
                 var (notificationText,targetGroup) = order.Status switch
@@ -46,6 +49,8 @@ namespace HeroesForHire.Domain
                 db.Notifications.Add(new Notification(notificationText, targetGroup, null));
 
                 await db.SaveChangesAsync(cancellationToken);
+                
+                tx.Complete();
                 
                 return Unit.Value;
             }
