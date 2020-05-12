@@ -11,7 +11,7 @@ namespace HeroesForHire.Domain
         
         public OrderStatus Status { get; protected set; }
         
-        public string ProcessInstanceId { get; protected set; }
+        public string ProcessInstanceId { get; private set; }
 
         public virtual Offer Offer { get; protected set; }
 

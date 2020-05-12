@@ -16,6 +16,8 @@ namespace HeroesForHire.Init
 
         public async Task SeedData()
         {
+            db.Database.EnsureCreated();
+            
             var nightVision = new Superpower("NIGHT_VISION", "Night vision");
             db.Superpowers.Add(nightVision);
             

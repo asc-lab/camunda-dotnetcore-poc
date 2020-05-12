@@ -1,0 +1,17 @@
+version: "2.4"
+services:
+  dbef:
+    container_name: camunda-dotnetpoc-db1
+    image: postgres:12.0-alpine
+    volumes:
+      - pg-data-camundadotnetpocdata1:/var/lib/postgresql/data
+      - ./DbScripts/dbschema:/docker-entrypoint-initdb.d
+    ports:
+      - 5435:5432
+    environment:
+      POSTGRES_DB: camunda_poc_db
+      POSTGRES_USER: lab_user
+      POSTGRES_PASSWORD: lab_pass
+
+volumes:
+  pg-data-camundadotnetpocdata1:

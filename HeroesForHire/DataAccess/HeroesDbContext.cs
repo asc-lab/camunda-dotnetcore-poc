@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using HeroesForHire.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HeroesForHire.DataAccess
 {
@@ -70,7 +71,8 @@ namespace HeroesForHire.DataAccess
                 .HasOne(s => s.AssignedHero);
             
             modelBuilder.Entity<Offer>()
-                .Property(s => s.Status);
+                .Property(s => s.Status)
+                .HasConversion(new EnumToStringConverter<OfferStatus>());
         }
     }
     
@@ -139,7 +141,8 @@ namespace HeroesForHire.DataAccess
                     p.Property(x => x.From);
                     p.Property(x => x.To);
                 });
-            modelBuilder.Property(x => x.Status);
+            modelBuilder.Property(x => x.Status)
+                .HasConversion(new EnumToStringConverter<AssignmentStatus>());
         }
     }
     
@@ -157,7 +160,7 @@ namespace HeroesForHire.DataAccess
                     s.Property(x => x.To);
                 });
             modelBuilder.HasOne(s => s.Customer);
-            modelBuilder.Property(s => s.Status);
+            modelBuilder.Property(s => s.Status).HasConversion(new EnumToStringConverter<OrderStatus>());
             modelBuilder.Property(s => s.ProcessInstanceId);
             modelBuilder.HasOne(s => s.Offer);
         }
@@ -175,7 +178,7 @@ namespace HeroesForHire.DataAccess
             
             modelBuilder.HasOne(s => s.AssignedHero);
             
-            modelBuilder.Property(s => s.Status);
+            modelBuilder.Property(s => s.Status).HasConversion(new EnumToStringConverter<OfferStatus>());
         }
     }
     
@@ -205,7 +208,7 @@ namespace HeroesForHire.DataAccess
             
             modelBuilder.HasOne(s => s.Customer);
             
-            modelBuilder.Property(s => s.Status);
+            modelBuilder.Property(s => s.Status).HasConversion(new EnumToStringConverter<InvoiceStatus>());
             
             modelBuilder.Property(s => s.Title);
 

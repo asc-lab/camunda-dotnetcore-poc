@@ -1,0 +1,1 @@
+docker-compose -f postgres.yml up --build --force-recreate -d
