@@ -7,14 +7,14 @@ namespace HeroesForHire
 {
     public static class BpmnInstaller
     {
-        public static IServiceCollection AddCamunda(this IServiceCollection services)
+        public static IServiceCollection AddCamunda(this IServiceCollection services, string camundaRestApiUri)
         {
-            services.AddSingleton<BpmnService>();
+            services.AddSingleton(_ => new BpmnService(camundaRestApiUri));
             services.AddHostedService<BpmnProcessDeployService>();
             
             services.AddCamundaWorker(options =>
             {
-                options.BaseUri = new Uri("http://localhost:8080/rest/engine/default");
+                options.BaseUri = new Uri(camundaRestApiUri);
                 options.WorkerCount = 1;
             })
             .AddHandler<NotifyCustomerTaskHandler>()

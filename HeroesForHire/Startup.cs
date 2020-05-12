@@ -75,9 +75,9 @@ namespace HeroesForHire
                 });
 
             services.AddMediatR(typeof(Startup));
-            services.AddDataAccess();
+            services.AddDataAccess(Configuration.GetConnectionString("HeroesDb"));
             services.AddDbInitializer();
-            services.AddCamunda();
+            services.AddCamunda(appSettings.CamundaRestApiUri);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

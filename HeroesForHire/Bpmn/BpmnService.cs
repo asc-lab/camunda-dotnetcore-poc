@@ -17,9 +17,9 @@ namespace HeroesForHire
     {
         private readonly CamundaClient camunda;
 
-        public BpmnService()
+        public BpmnService(string camundaRestApiUri)
         {
-            this.camunda = CamundaClient.Create("http://localhost:8080/rest/engine/default");
+            this.camunda = CamundaClient.Create(camundaRestApiUri);
         }
 
         public async Task DeployProcessDefinition()
