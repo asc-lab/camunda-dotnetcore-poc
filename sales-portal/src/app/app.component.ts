@@ -9,7 +9,7 @@ import { AuthService } from './_services/auth-service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'customer-portal';
+  title = 'sales-portal';
   currentUser: User;
 
   constructor(

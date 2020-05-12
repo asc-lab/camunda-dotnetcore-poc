@@ -1,0 +1,1 @@
+docker run -p 4220:80 sales-portal
