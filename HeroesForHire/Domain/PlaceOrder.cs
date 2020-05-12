@@ -31,8 +31,6 @@ namespace HeroesForHire.Domain
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                //?? validation
-                
                 var newOrder = new Order
                     (
                     db.Customers.First(c=>c.Code==request.CustomerCode),
