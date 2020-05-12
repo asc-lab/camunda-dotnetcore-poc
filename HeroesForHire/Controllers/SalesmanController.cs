@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HeroesForHire.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Sales")]
     [ApiController]
     [Route("[controller]")]
     public class SalesmanController : ControllerBase

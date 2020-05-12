@@ -20,6 +20,7 @@ namespace HeroesForHire.Controllers
             this.bus = bus;
         }
 
+        [Authorize(Roles = "Customer")]
         [HttpPost]
         public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrderDto request)
         {
@@ -34,6 +35,7 @@ namespace HeroesForHire.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Customer,Sales")]
         [HttpGet("{orderId}")]
         public async Task<OrderDto> GetOrderDetails([FromRoute] Guid orderId)
         {
@@ -43,6 +45,7 @@ namespace HeroesForHire.Controllers
             });
         }
 
+        [Authorize(Roles = "Sales")]
         [HttpPost("CreateOffer")]
         public async Task<IActionResult> CreateOffer([FromBody] CreateOfferDto request)
         {
@@ -56,6 +59,7 @@ namespace HeroesForHire.Controllers
             return Ok();
         }
         
+        [Authorize(Roles = "Sales")]
         [HttpPost("NoHeroesAvailable")]
         public async Task<IActionResult> NoHeroesAvailable([FromBody] NoHeroesForOrderDto request)
         {
@@ -68,6 +72,7 @@ namespace HeroesForHire.Controllers
             return Ok();
         }
         
+        [Authorize(Roles = "Customer")]
         [HttpPost("AcceptOffer")]
         public async Task<IActionResult> AcceptOffer([FromBody] AcceptOfferDto request)
         {
@@ -80,6 +85,7 @@ namespace HeroesForHire.Controllers
             return Ok();
         }
         
+        [Authorize(Roles = "Customer")]
         [HttpPost("RejectOffer")]
         public async Task<IActionResult> RejectOffer([FromBody] RejectOfferDto request)
         {
@@ -91,7 +97,8 @@ namespace HeroesForHire.Controllers
             
             return Ok();
         }
-        
+ 
+        [Authorize(Roles = "Sales")]
         [HttpPost("MarkInvoicePaid")]
         public async Task<IActionResult> MarkInvoicePaid([FromBody] MarkInvoicePaidDto request)
         {

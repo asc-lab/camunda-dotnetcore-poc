@@ -22,6 +22,7 @@ namespace HeroesForHire.Controllers
             this.bus = bus;
         }
 
+        [Authorize(Roles = "Sales")]
         [HttpGet("AvailableForOrder/{orderId}")]
         public async Task<ICollection<HeroDto>> FindAvailableHeroes([FromRoute] Guid orderId)
         {
