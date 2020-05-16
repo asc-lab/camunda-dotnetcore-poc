@@ -20,6 +20,7 @@ import { SuperPowerService } from './_services/superpower-service';
 import { HeroService } from './_services/hero-service';
 import { OrderService } from './_services/order-service';
 import { InvoicesListComponent } from './invoices-list/invoices-list.component';
+import { ErrorInterceptor } from './_services/error-interceptor';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { InvoicesListComponent } from './invoices-list/invoices-list.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     AuthService,
     TaskService,
     SuperPowerService,
