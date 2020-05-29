@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HeroesForHire.DataAccess;
 using HeroesForHire.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace HeroesForHire.Init
 {
@@ -19,6 +20,8 @@ namespace HeroesForHire.Init
         {
             db.Database.EnsureCreated();
             
+            await CleanUp();
+
             if (db.Superpowers.Any())
                 return;
             
@@ -73,15 +76,21 @@ namespace HeroesForHire.Init
             db.Heroes.Add(superman);
             db.Heroes.Add(wonderWoman);
             
-            batman.Assign(nypd, DateRange.Between(DateTime.Now.AddDays(-7), DateTime.Now));
+            await db.SaveChangesAsync();
+        }
 
-            var orderOne = new Order(
-                nypd,
-                nightVision,
-                DateRange.Between(DateTime.Now, DateTime.Now.AddDays(7))
-            );
-            db.Orders.Add(orderOne);
-
+        private async Task CleanUp()
+        {
+            db.Database.ExecuteSqlRaw("DELETE FROM \"Notifications\"");
+            db.Database.ExecuteSqlRaw("DELETE FROM \"Invoices\"");
+            db.Database.ExecuteSqlRaw("DELETE FROM \"Offers\"");
+            db.Database.ExecuteSqlRaw("DELETE FROM \"Orders\"");
+            db.Database.ExecuteSqlRaw("DELETE FROM \"HeroAssignment\"");
+            db.Database.ExecuteSqlRaw("DELETE FROM \"HeroPower\"");
+            db.Database.ExecuteSqlRaw("DELETE FROM \"Heroes\"");
+            db.Database.ExecuteSqlRaw("DELETE FROM \"Customers\"");
+            db.Database.ExecuteSqlRaw("DELETE FROM \"Superpowers\"");
+            
             await db.SaveChangesAsync();
         }
     }

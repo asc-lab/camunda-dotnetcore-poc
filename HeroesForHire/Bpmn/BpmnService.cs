@@ -24,16 +24,23 @@ namespace HeroesForHire
 
         public async Task DeployProcessDefinition()
         {
-            var bpmnResourceStream = this.GetType().Assembly.GetManifestResourceStream("HeroesForHire.Bpmn.hire-heroes.bpmn");
+            var bpmnResourceStream = this.GetType()
+                .Assembly
+                .GetManifestResourceStream("HeroesForHire.Bpmn.hire-heroes.bpmn");
+            
             try
             {
-
-                await camunda.Deployments.Create("HireHeroes Deployment",
+                await camunda.Deployments.Create(
+                    "HireHeroes Deployment",
+                    true,
+                    true,
+                    null,
+                    null,
                     new ResourceDataContent(bpmnResourceStream, "hire-heroes.bpmn"));
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw new ApplicationException("Failed to deploy process definition", e);
             }
         }
 
@@ -78,22 +85,17 @@ namespace HeroesForHire
 
         public async Task<UserTaskInfo> ClaimTask(string taskId, string user)
         {
-            await camunda.UserTasks[taskId].Claim(user);
-            
+            await camunda.UserTasks[taskId].Claim(user); 
             var task = await camunda.UserTasks[taskId].Get();
-            
             return task;
         }
         
         public async Task<UserTaskInfo> CompleteTask(string taskId, Order order)
         {
             var task = await camunda.UserTasks[taskId].Get();
-
             var completeTask = new CompleteTask()
                 .SetVariable("orderStatus", VariableValue.FromObject(order.Status.ToString()));
-                
             await camunda.UserTasks[taskId].Complete(completeTask);
-            
             return task;
         }
         
